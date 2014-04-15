@@ -1,3 +1,3 @@
 class profile::motd {
-  include motd
+  include ::motd
 }
