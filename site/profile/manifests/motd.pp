@@ -22,7 +22,7 @@ class profile::motd {
     concat::fragment { 'motd_header':
       target  => '/etc/motd',
       content => template('profile/motd.erb'),
-      order   => 5,
+      order   => '05',
     }
   }
 
