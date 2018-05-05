@@ -1,0 +1,11 @@
+<%- |
+  Array[String[1]] $roles,
+| -%>
+<%= $facts['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $facts['whereami'] %>
+ _____                 _
+|  _  |_ _ ___ ___ ___| |_
+|   __| | | . | . | -_|  _|  Puppet <%= $facts['puppetversion'] %> in <%= $environment %>
+|__|  |___|  _|  _|___|_|    <%= $roles.join(', ') %>
+          |_| |_|
+<%# Font: http://patorjk.com/software/taag/#p=display&f=Rectangles&t=Puppet -%>
+<%# this line intentionally left blank #%>
