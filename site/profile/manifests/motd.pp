@@ -1,6 +1,6 @@
 # Update /etc/motd with information about the host
 #
-# It is sometimes useful to disable changes to /etc/motd, comparing runs in
+# It is sometimes useful to disable changes to /etc/motd when comparing runs in
 # different environments. To do that:
 #
 #   sudo FACTER_suppress_motd=true puppet agent --test ...
@@ -14,15 +14,26 @@ class profile::motd {
   }
 
   if ! $suppress {
-    concat{ '/etc/motd':
+    concat { '/etc/motd':
       owner => 'root',
+      group => 'root',
       mode  => '0644',
     }
 
     concat::fragment { 'motd_header':
       target  => '/etc/motd',
-      content => template('profile/motd.erb'),
       order   => '05',
+      content => epp('profile/motd.epp', {
+        roles => lookup('classes', Array[String], 'unique'),
+      }),
+    }
+
+    if $facts['fqdn'] != $trusted['certname'] {
+      profile::motd::keyvalue { "Certname: ${trusted['certname']}": }
+    }
+
+    if $facts['pe_build'] {
+      profile::motd::keyvalue { "PE build: ${facts['pe_build']}": }
     }
   }
 
