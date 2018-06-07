@@ -24,7 +24,7 @@ class profile::motd {
       target  => '/etc/motd',
       order   => '05',
       content => epp('profile/motd.epp', {
-        roles => lookup('classes', Array[String], 'unique'),
+        roles => lookup('classes', Array[String], 'unique', []),
       }),
     }
 
