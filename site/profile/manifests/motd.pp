@@ -28,7 +28,7 @@ class profile::motd {
       }),
     }
 
-    if $facts['fqdn'] != $trusted['certname'] {
+    if $facts['networking']['fqdn'] != $trusted['certname'] {
       profile::motd::keyvalue { "Certname: ${trusted['certname']}": }
     }
 
