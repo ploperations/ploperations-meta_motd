@@ -1,7 +1,7 @@
 <%- |
   Array[String[1]] $roles,
 | -%>
-<%= $facts['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $facts['whereami'] %>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $facts['whereami'] %>
  _____                 _
 |  _  |_ _ ___ ___ ___| |_
 |   __| | | . | . | -_|  _|  Puppet <%= $facts['puppetversion'] %> in <%= $environment %>
