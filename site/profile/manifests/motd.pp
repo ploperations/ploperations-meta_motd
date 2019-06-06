@@ -13,10 +13,15 @@ class profile::motd {
     }
   }
 
+  $motd_group = $facts['kernel'] ? {
+    'Darwin' => 'wheel',
+    default  => 'root',
+  }
+
   if ! $suppress {
     concat { '/etc/motd':
       owner => 'root',
-      group => 'root',
+      group => $motd_group,
       mode  => '0644',
     }
 
