@@ -1,0 +1,20 @@
+<%- |
+  Array[String[1]] $roles,
+| -%>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $facts['whereami'] %>
+
+8888888b.                                      888    @@@@@@@@@@@@@@@
+888   Y88b                                     888    @,,,,,,@@@@@@@@
+888    888                                     888    @,,@@,,@@@@@@@@
+888   d88P 888  888 88888b.  88888b.   .d88b.  888888 @,,,,,,,@@@@@@@
+8888888P"  888  888 888 "88b 888 "88b d8P  Y8b 888    @@@@@@@@,,,,,,@ Puppet <%= $facts['puppetversion'] %> in <%= $environment %>
+888        888  888 888  888 888  888 88888888 888    @@@@@@@@,,,,,,@ <%= $roles.join(', ') %>
+888        Y88b 888 888 d88P 888 d88P Y8b.     Y88b.  @@@@@@@@,,,,,,@
+888         "Y88888 88888P"  88888P"   "Y8888   "Y888 @,,,,,,,@@@@@@@
+                    888      888                      @,,@@,,@@@@@@@@
+                    888      888                      @,,,,,,@@@@@@@@
+                    888      888                      @@@@@@@@@@@@@@@
+
+<%# Font: http://patorjk.com/software/taag/#p=display&v=0&f=Colossal&t=Puppet -%>
+<%# Dag: https://manytools.org/hacker-tools/convert-images-to-ascii-art/ -%>
+<%# this line intentionally left blank #%>
