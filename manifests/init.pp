@@ -5,6 +5,7 @@
 #
 #   sudo FACTER_suppress_motd=true puppet agent --test ...
 class meta_motd {
+  # lint:ignore:quoted_booleans
   case $facts['suppress_motd'] {
     true, 'true':          { $suppress = true }
     undef, false, 'false': { $suppress = false }
@@ -12,6 +13,7 @@ class meta_motd {
       fail("Invalid value for fact suppress_motd: ${facts['suppress_motd']}")
     }
   }
+  # lint:endignore
 
   $motd_group = $facts['kernel'] ? {
     'Darwin' => 'wheel',
