@@ -4,7 +4,10 @@
 # different environments. To do that:
 #
 #   sudo FACTER_suppress_motd=true puppet agent --test ...
-class meta_motd {
+class meta_motd (
+  Array[String[1]] $roles = lookup('classes', Array[String], 'unique', []),
+  Optional[String[1]] $location = undef,
+) {
   # lint:ignore:quoted_booleans
   case $facts['suppress_motd'] {
     true, 'true':          { $suppress = true }
@@ -30,7 +33,7 @@ class meta_motd {
     concat::fragment { 'motd_header':
       target  => '/etc/motd',
       order   => '05',
-      content => epp('profile/motd.epp', {
+      content => epp('meta_motd/motd.epp', {
         roles => lookup('classes', Array[String], 'unique', []),
       }),
     }
