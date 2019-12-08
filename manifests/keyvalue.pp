@@ -4,9 +4,10 @@
 define meta_motd::keyvalue (
   String[1] $content = $title,
 ) {
-  include meta_motd::keyvalue::blank
   meta_motd::fragment { "keyvalue: ${title}":
     content => "${content}\n",
     order   => '10',
   }
+
+  include meta_motd::keyvalue::blank
 }

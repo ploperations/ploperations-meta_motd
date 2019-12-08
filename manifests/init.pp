@@ -43,9 +43,4 @@ class meta_motd {
       meta_motd::keyvalue { "PE build: ${facts['pe_build']}": }
     }
   }
-
-  # 2016-08: Remove /etc/banner
-  file { '/etc/banner':
-    ensure => absent,
-  }
 }
