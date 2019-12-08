@@ -1,12 +1,12 @@
 # Add a fragment to the MOTD, if allowed
-define profile::motd::fragment (
+define meta_motd::fragment (
   String[1] $content = $title,
   String[2] $order   = '50',
 ) {
   if $facts['os']['family'] != 'windows' {
-    include profile::motd
+    include meta_motd
 
-    if ! $profile::motd::suppress {
+    if ! $meta_motd::suppress {
       concat::fragment { "/etc/motd ${title}":
         target  => '/etc/motd',
         content => $content,

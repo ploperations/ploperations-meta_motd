@@ -4,7 +4,7 @@
 # different environments. To do that:
 #
 #   sudo FACTER_suppress_motd=true puppet agent --test ...
-class profile::motd {
+class meta_motd {
   case $facts['suppress_motd'] {
     true, 'true':          { $suppress = true }
     undef, false, 'false': { $suppress = false }
@@ -34,11 +34,11 @@ class profile::motd {
     }
 
     if $facts['networking']['fqdn'] != $trusted['certname'] {
-      profile::motd::keyvalue { "Certname: ${trusted['certname']}": }
+      meta_motd::keyvalue { "Certname: ${trusted['certname']}": }
     }
 
     if $facts['pe_build'] {
-      profile::motd::keyvalue { "PE build: ${facts['pe_build']}": }
+      meta_motd::keyvalue { "PE build: ${facts['pe_build']}": }
     }
   }
 
