@@ -1,7 +1,12 @@
 <%- |
   Array[String[1]] $roles,
+  Optional[String[1]] $location = undef,
 | -%>
-<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $facts['whereami'] %>
+<% if $location { -%>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $location %>
+<% } else { -%>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %>
+<% } -%>
  _____                 _
 |  _  |_ _ ___ ___ ___| |_
 |   __| | | . | . | -_|  _|  Puppet <%= $facts['puppetversion'] %> in <%= $environment %>
