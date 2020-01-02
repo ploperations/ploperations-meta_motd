@@ -5,8 +5,11 @@
 #
 #   sudo FACTER_suppress_motd=true puppet agent --test ...
 class meta_motd (
-  Array[String[1]] $roles = lookup('classes', Array[String], 'unique', []),
-  Optional[String[1]] $location = undef,
+  String[1] $epp_template = 'meta_motd/short-puppet.epp',
+  Hash $epp_params = {
+    roles    => lookup('classes', Array[String], 'unique', []),
+    location => undef,
+  },
 ) {
   # lint:ignore:quoted_booleans
   case $facts['suppress_motd'] {
@@ -33,9 +36,7 @@ class meta_motd (
     concat::fragment { 'motd_header':
       target  => '/etc/motd',
       order   => '05',
-      content => epp('meta_motd/motd.epp', {
-        roles => lookup('classes', Array[String], 'unique', []),
-      }),
+      content => epp($epp_template, $epp_params),
     }
 
     if $facts['networking']['fqdn'] != $trusted['certname'] {

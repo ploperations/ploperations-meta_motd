@@ -1,0 +1,26 @@
+<%- |
+  Array[String[1]] $roles,
+  String[1] $location,
+| -%>
+<% if $facts[os][family] == 'Debian' { -%>
+<%   if (versioncmp($facts[facterversion], '3.0.0') < 0) { -%>
+<%     $deb_codename = $facts[os][lsb][distcodename] -%>
+<%   } else { -%>
+<%     $deb_codename = $facts[os][distro][codename] -%>
+<%   } -%>
+<% } -%>
+<%# Generated via http://patorjk.com/software/taag/#p=display&f=Crawford2&t=Puppet -%>
+ ____  __ __  ____  ____   ___ ______
+|    \|  |  ||    \|    \ /  _]      |  Env: <%= $facts[current_environment] %>
+|  o  )  |  ||  o  )  o  )  [_|      |  OS: <%= $facts[os][name] %> <%= $facts[os][release][major] %><% if $facts[os][family] == "Debian" { %> aka <%= $deb_codename %><% } %>
+|   _/|  |  ||   _/|   _/    _]_|  |_|  Location: <%= $location %><% if $facts[is_virtual] { %> in <%= $facts[virtual] %><% } else { %> (physical system)<% } %>
+|  |  |  :  ||  |  |  | |   [_  |  |    Puppet: <%= $facts[puppetversion] %>
+|  |  |     ||  |  |  | |     | |  |    <% if $facts[pe_build] { %>PE Build: <%= $facts[pe_build] %><% } %>
+|__|   \__,_||__|  |__| |_____| |__|
+FQDN: <%= $facts[fqdn] %><% if $facts[certname] != $facts[fqdn] { %>
+Certname: <%= $facts[certname] %>
+<% } %><% if $facts[profile_metadata] { %>
+
+<% $facts[profile_metadata][services].each |$service| { %><%= $service[human_name] %>
+  <%= $service[class_name] %> owned by <%= $service[team] %>
+<% }} -%>
