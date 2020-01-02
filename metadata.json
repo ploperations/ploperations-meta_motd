@@ -2,9 +2,11 @@
   "name": "ploperations-meta_motd",
   "version": "0.1.0",
   "author": "ploperations",
-  "summary": "",
+  "summary": "Create a message of the day that includes metadata about the node",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/ploperations/ploperations-meta_motd.git",
+  "project_page": "https://github.com/ploperations/ploperations-meta_motd",
+  "issues_url": "https://github.com/ploperations/ploperations-meta_motd/issues",
   "dependencies": [
     {
       "name": "puppetlabs/concat",
