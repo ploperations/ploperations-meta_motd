@@ -12,7 +12,7 @@
 <%# Generated via http://patorjk.com/software/taag/#p=display&f=Crawford2&t=Puppet -%>
  ____  __ __  ____  ____   ___ ______
 |    \|  |  ||    \|    \ /  _]      |  Env: <%= $facts[current_environment] %>
-|  o  )  |  ||  o  )  o  )  [_|      |  OS: <%= $facts[os][name] %> <%= $facts[os][release][major] %><% if $facts[os][family] == "Debian" { %> aka <%= $deb_codename %><% } %>
+|  o  )  |  ||  o  )  o  )  [_|      |  OS: <%= $facts[os][name] %> <%= $facts[os][release][major] %><% if $facts[os][family] == 'Debian' { %> aka <%= $deb_codename %><% } %>
 |   _/|  |  ||   _/|   _/    _]_|  |_|  Location: <%= $location %><% if $facts[is_virtual] { %> in <%= $facts[virtual] %><% } else { %> (physical system)<% } %>
 |  |  |  :  ||  |  |  | |   [_  |  |    Puppet: <%= $facts[puppetversion] %>
 |  |  |     ||  |  |  | |     | |  |    <% if $facts[pe_build] { %>PE Build: <%= $facts[pe_build] %><% } %>
