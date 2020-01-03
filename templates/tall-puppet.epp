@@ -16,7 +16,6 @@
 |  |  |  :  ||  |  |  | |   [_  |  |    Puppet: <%= $facts['puppetversion'] %>
 |  |  |     ||  |  |  | |     | |  |    <% if $facts['pe_build'] { %>PE Build: <%= $facts['pe_build'] %><% } %>
 |__|   \__,_||__|  |__| |_____| |__|
-FQDN: <%= $facts['networking']['fqdn'] %><% if $trusted['certname'] != $facts['networking']['fqdn'] { %>
-Certname: <%= $trusted['certname']%><% } %>
+FQDN: <%= $facts['networking']['fqdn'] %>
 <%# Generated via http://patorjk.com/software/taag/#p=display&f=Crawford2&t=Puppet -%>
 <%# this line intentionally left blank #%>
