@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'meta_motd::keyvalue' do
   let(:title) { 'extra-data' }
   let(:params) do
-    { 'content' => 'some extra data' }
+    { 'content' => 'This key: has a value :)' }
   end
 
   on_supported_os.each do |os, os_facts|
