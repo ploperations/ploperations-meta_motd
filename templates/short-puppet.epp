@@ -3,9 +3,9 @@
   Optional[String[1]] $location = undef,
 | -%>
 <% if $location { -%>
-<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $location %>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['networking']['ip'] %> - <%= $location %>
 <% } else { -%>
-<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['networking']['ip'] %>
 <% } -%>
  _____                 _
 |  _  |_ _ ___ ___ ___| |_
