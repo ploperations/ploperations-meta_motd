@@ -9,7 +9,6 @@
 <%     $deb_codename = $facts['os']['distro']['codename'] -%>
 <%   } -%>
 <% } -%>
-<%# Generated via http://patorjk.com/software/taag/#p=display&f=Crawford2&t=Puppet -%>
  ____  __ __  ____  ____   ___ ______
 |    \|  |  ||    \|    \ /  _]      |  Env: <%= $facts['current_environment'] %>
 |  o  )  |  ||  o  )  o  )  [_|      |  OS: <%= $facts['os']['name'] %> <%= $facts['os']['release']['major'] %><% if $facts['os']['family'] == 'Debian' { %> aka <%= $deb_codename %><% } %>
@@ -18,9 +17,6 @@
 |  |  |     ||  |  |  | |     | |  |    <% if $facts['pe_build'] { %>PE Build: <%= $facts['pe_build'] %><% } %>
 |__|   \__,_||__|  |__| |_____| |__|
 FQDN: <%= $facts['networking']['fqdn'] %><% if $trusted['certname'] != $facts['networking']['fqdn'] { %>
-Certname: <%= $trusted['certname'] %>
-<% } %><% if $facts[profile_metadata] { %>
-
-<% $facts[profile_metadata][services].each |$service| { %><%= $service[human_name] %>
-  <%= $service[class_name] %> owned by <%= $service[team] %>
-<% }} -%>
+Certname: <%= $trusted['certname']%><% } %>
+<%# Generated via http://patorjk.com/software/taag/#p=display&f=Crawford2&t=Puppet -%>
+<%# this line intentionally left blank #%>
