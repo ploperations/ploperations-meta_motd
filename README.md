@@ -94,7 +94,7 @@ include meta_motd
 
 ## Reference
 
-This module is documented via `pdk bundle exec puppet strings generate --format markdown`. Please see [Reference](https://forge.puppet.com/ploperations/github/reference) on the Puppet Forge or [REFERENCE.md](REFERENCE.md) on GitHub for more info.
+This module is documented via `pdk bundle exec puppet strings generate --format markdown`. Please see [Reference](https://forge.puppet.com/ploperations/meta_motd/reference) on the Puppet Forge or [REFERENCE.md](REFERENCE.md) on GitHub for more info.
 
 ## Changelog
 
