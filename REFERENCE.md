@@ -5,26 +5,69 @@
 
 **Classes**
 
-* [`meta_motd`](#meta_motd): Update /etc/motd with information about the host  It is sometimes useful to disable changes to /etc/motd when comparing runs in different env
-* [`meta_motd::keyvalue::blank`](#meta_motdkeyvalueblank): Adds blank link after the "key: value" entries in the MOTD
-* [`meta_motd::register::blank`](#meta_motdregisterblank): Adds blank link after the meta_motd::register entries
+_Public Classes_
+
+* [`meta_motd`](#meta_motd): Update /etc/motd with information about the host
+
+_Private Classes_
+
+* `meta_motd::keyvalue::blank`: Adds blank link after the `meta_motd::keyvalue` entries
+* `meta_motd::register::blank`: Adds blank link after the `meta_motd::register` entries
 
 **Defined types**
 
+_Public Defined types_
+
 * [`meta_motd::fragment`](#meta_motdfragment): Add a fragment to the MOTD, if allowed
-* [`meta_motd::keyvalue`](#meta_motdkeyvalue): Add a line to the "key: value" section of the MOTD  All such values go between the header and the services.
-* [`meta_motd::register`](#meta_motdregister): Deprecated: add an old-style to the MOTD.  Generally you should rely on profile_metadata::service, but if you need to add something else, use
+* [`meta_motd::keyvalue`](#meta_motdkeyvalue): Add a line to the "key: value" section of the MOTD
+
+_Private Defined types_
+
+* `meta_motd::register`: Deprecated: add an old-style entry to the MOTD.
 
 ## Classes
 
 ### meta_motd
 
-Update /etc/motd with information about the host
+Update /etc/motd with information about the host.
 
-It is sometimes useful to disable changes to /etc/motd when comparing runs in
-different environments. To do that:
+- If the system is a Puppet Enterprise server an entry will automatically be added
+  to the MOTD showing what version of PE is installed.
+- Similarly, an entry will be added showing what the certname used by the system
+  is if the FQDN and the certname do not match.
 
-  sudo FACTER_suppress_motd=true puppet agent --test ...
+Note: It is sometimes useful to disable changes to /etc/motd when comparing runs in
+different environments. You can do that like so:
+`sudo FACTER_suppress_motd=true puppet agent --test ...`
+
+#### Examples
+
+##### Set MOTD template based on a conditional expression
+
+```puppet
+class profile::motd {
+  case $profile::server::someparam {
+    /infranext/: { $motd_template = 'meta_motd/colossal-puppet-dag.epp' }
+    default:     { $motd_template = 'meta_motd/short-puppet.epp' }
+  }
+
+  class { 'meta_motd':
+    epp_template => $motd_template,
+    epp_params   => {
+      roles    => lookup('classes', Array[String], 'unique', []),
+      location => $facts['whereami'],
+    },
+  }
+}
+```
+
+##### Use a template stored in your profile module
+
+```puppet
+class { 'meta_motd':
+  epp_template => 'profile/motd.epp',
+}
+```
 
 #### Parameters
 
@@ -34,7 +77,11 @@ The following parameters are available in the `meta_motd` class.
 
 Data type: `String[1]`
 
-
+This is the path to an EPP template passed into content parameter
+of a concat::fragment resource. All templates in this module are avaialable
+by setting this to `meta_motd/<name of template file>`. This can also be
+set to use an EPP templates from another module by replacing the `meta_motd`
+part of the path.
 
 Default value: 'meta_motd/short-puppet.epp'
 
@@ -42,26 +89,33 @@ Default value: 'meta_motd/short-puppet.epp'
 
 Data type: `Hash`
 
-
+This represents the parameters that will be passed to the template
+referenced in `$epp_template`. If you have defined a template that does
+not need parameters you can set this to `{}`.
 
 Default value: {
     roles    => lookup('classes', Array[String], 'unique', []),
     location => undef,
   }
 
-### meta_motd::keyvalue::blank
-
-Adds blank link after the "key: value" entries in the MOTD
-
-### meta_motd::register::blank
-
-Adds blank link after the meta_motd::register entries
-
 ## Defined types
 
 ### meta_motd::fragment
 
 Add a fragment to the MOTD, if allowed
+
+#### Examples
+
+##### 
+
+```puppet
+meta_motd::fragment { 'EoL Notice':
+  content => @(END),
+    NOTICE: this system is scheduled for decommissioning within the next two weeks
+    Contact IT if this poses a problem for you or your team.
+    | END
+}
+```
 
 #### Parameters
 
@@ -71,7 +125,7 @@ The following parameters are available in the `meta_motd::fragment` defined type
 
 Data type: `String[1]`
 
-
+the content to add to the MOTD
 
 Default value: $title
 
@@ -79,15 +133,29 @@ Default value: $title
 
 Data type: `String[2]`
 
-
+the order option to be passed to the concat::fragment
 
 Default value: '50'
 
 ### meta_motd::keyvalue
 
-Add a line to the "key: value" section of the MOTD
+Add a line to the "key: value" section of the MOTD.
+All such values go between the header and entries added via meta_motd::register.
+Services added by the profile_metadata module will also be below these entries.
 
-All such values go between the header and the services.
+#### Examples
+
+##### 
+
+```puppet
+meta_motd::keyvalue { "PE build: ${facts['pe_build']}": }
+```
+
+##### 
+
+```puppet
+meta_motd::keyvalue { "Jenkins alias: ${url}": }
+```
 
 #### Parameters
 
@@ -95,36 +163,11 @@ The following parameters are available in the `meta_motd::keyvalue` defined type
 
 ##### `content`
 
-Data type: `String[1]`
+Data type: `String[5]`
 
-
-
-Default value: $title
-
-### meta_motd::register
-
-Deprecated: add an old-style to the MOTD.
-
-Generally you should rely on profile_metadata::service, but if you need to
-add something else, use meta_motd::fragment instead of this.
-
-#### Parameters
-
-The following parameters are available in the `meta_motd::register` defined type.
-
-##### `content`
-
-Data type: `String[1]`
-
-
+A string in "key: value" format. The key must start with a word character (regex `\w`).
+It can then have zero or more spaces, word characters, or dashes.
+Next it must contain another word character followed by a colon and a space.
 
 Default value: $title
-
-##### `order`
-
-Data type: `String[2]`
-
-
-
-Default value: '20'
 
