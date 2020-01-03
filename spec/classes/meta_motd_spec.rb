@@ -9,6 +9,38 @@ describe 'meta_motd' do
         it { is_expected.to compile }
       end
 
+      context 'with colossal-puppet-dag template' do
+        let(:facts) { os_facts }
+
+        context 'without a location' do
+          let(:params) do
+            {
+              'epp_template' => 'meta_motd/colossal-puppet-dag.epp',
+              'epp_params' => {
+                'roles' => ['role::test_box'],
+              },
+            }
+          end
+
+          it { is_expected.to compile }
+        end
+
+        context 'with a location' do
+          let(:params) do
+            {
+              'epp_template' => 'meta_motd/colossal-puppet-dag.epp',
+              'epp_params' => {
+                'roles' => ['role::test_box'],
+                'location' => 'test environment',
+              },
+            }
+          end
+
+          it { is_expected.to compile }
+          it { is_expected.to contain_concat__fragment('motd_header').with_content(%r{-\stest\senvironment$}) }
+        end
+      end
+
       context 'with tall-puppet template' do
         let(:facts) do
           os_facts.merge(
