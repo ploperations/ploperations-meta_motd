@@ -1,7 +1,12 @@
 <%- |
   Array[String[1]] $roles,
+  Optional[String[1]] $location = undef,
 | -%>
-<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $facts['whereami'] %>
+<% if $location { -%>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %> - <%= $location %>
+<% } else { -%>
+<%= $facts['networking']['fqdn'] %> - <%= $facts['primary_ip'] %>
+<% } -%>
 
 8888888b.                                      888    @@@@@@@@@@@@@@@
 888   Y88b                                     888    @,,,,,,@@@@@@@@
