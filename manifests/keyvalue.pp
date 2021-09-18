@@ -4,7 +4,7 @@
 # All such values go between the header and entries added via meta_motd::register.
 # Services added by the profile_metadata module will also be below these entries.
 #
-# @param [String[1]] content
+# @param [String[5]] content
 #   A string in "key: value" format. The key must start with a word character (regex `\w`).
 #   It can then have zero or more spaces, word characters, or dashes.
 #   Next it must contain another word character followed by a colon and a space.
